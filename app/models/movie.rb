@@ -1,7 +1,8 @@
 class Movie < ActiveRecord::Base
     
-    def self.with_ratings(ratings)
+    def self.ratings()
         # get all unique values for rating of movies and return enum
-     end   
+        return  self.all.map{|m| m.rating}.uniq
+    end  
 
 end
