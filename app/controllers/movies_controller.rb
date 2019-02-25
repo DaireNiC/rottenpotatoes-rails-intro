@@ -11,7 +11,22 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
+  
     @movies = Movie.order("#{params[:sort_param]}")
+  
+    # get all the values for ratings from movie and save the unique
+    @all_ratings = Movie.all.map{|m| m.rating}.uniq
+    
+    # get the selected ratings
+    @selected_ratings = params[:ratings].keys
+    
+    puts @selected_ratings
+    
+   # @movies = Movie.where(rating: @selected_ratings)
+  
+    
+    
   end
 
   def new
