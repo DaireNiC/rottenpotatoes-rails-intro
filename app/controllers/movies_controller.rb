@@ -12,27 +12,17 @@ class MoviesController < ApplicationController
 
   def index
     
-      # get all the values for ratings from movie and save the unique
+     # get all the values for ratings from movie and save the unique
     @all_ratings = Movie.ratings
+    # initially set all to checked
     @selected_ratings = @all_ratings
 
-   # @movies = Movie.order("#{params[:sort_param]}")
-  
-
-    # get the selected ratings
-   
-   
-   
-   # @movies = Movie.where(rating: @selected_ratings)
   
    # if the user sorts & refines
     if params[:sort_param] and params[:ratings]
-     puts "param and rating \n selected: "
      @selected_ratings = params[:ratings].keys
-     puts @selected_ratings
      @movies = Movie.where(rating: @selected_ratings).order("#{params[:sort_param]} ASC")
-
-            
+     
      #save the settings
      session[:ratings] = params[:ratings]
      session[:sort_param] = params[:sort_param]
@@ -57,9 +47,9 @@ class MoviesController < ApplicationController
       redirect_to :action => "index", sort_param: session[:sort_param], ratings: session[:ratings]
     end
     
-        @className = 'hilite' && session[:sort_param]
+    # css var to change colour on click
+     @linkClass = 'hilite' && session[:sort_param]
 
-    
   end
 
   def new
