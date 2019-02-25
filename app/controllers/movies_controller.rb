@@ -27,16 +27,16 @@ class MoviesController < ApplicationController
   
    # if the user sorts & refines
     if params[:sort_param] and params[:ratings]
-      
-     #save the settings
-     session[:ratings] = params[:ratings]
-     session[:sort_param] = params[:sort_param]
-    
+     puts "param and rating \n selected: "
      @selected_ratings = params[:ratings].keys
      puts @selected_ratings
      @movies = Movie.where(rating: @selected_ratings).order("#{params[:sort_param]} ASC")
 
-      
+            
+     #save the settings
+     session[:ratings] = params[:ratings]
+     session[:sort_param] = params[:sort_param]
+    
   # Add in session params where missing
     elsif params[:sort_param] and not params[:ratings]
       redirect_to :action => "index", sort_param: params[:sort_param], ratings: session[:ratings]
@@ -50,13 +50,15 @@ class MoviesController < ApplicationController
        # if sort is balnk, default to sort by title
       if session[:sort_param].blank?
          session[:sort_param] = "title"
-       end
+      end
       if session[:ratings].blank?
-         session[:ratings] = Hash[Movie.ratings.map {|k,v| [k, 1]}]
-     end
-     puts session[:ratings]
+         session[:ratings] = Hash[@all_ratings.map {|k,v| [k, 1]}]
+      end
       redirect_to :action => "index", sort_param: session[:sort_param], ratings: session[:ratings]
     end
+    
+        @className = 'hilite' && session[:sort_param]
+
     
   end
 
